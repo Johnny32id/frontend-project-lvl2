@@ -19,11 +19,11 @@ const genDiff = (pathToFirstFile, pathToSecondFile) => {
         } else {
             result += `  - ${key}: ${valueBefore}\n`
             result += `  + ${key}: ${valueAfter}\n`
-        };
-    };
+        }
+    }
     if (keysOfFirstFile.includes(key) && !keysOfSecondFile.includes(key)) {
       result += `  - ${key}: ${valueBefore}\n`
-    };
+    }
     if (!keysOfFirstFile.includes(key) && keysOfSecondFile.includes(key)) {
       result += `  + ${key}: ${valueAfter}\n`;
     }
