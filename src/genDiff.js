@@ -28,6 +28,6 @@ const genDiff = (pathToFirstFile, pathToSecondFile) => {
       result += `  + ${key}: ${valueAfter}\n`;
     }
   }
-  return result += '\n}';
+  return result += '}';
 };
 export default genDiff;
