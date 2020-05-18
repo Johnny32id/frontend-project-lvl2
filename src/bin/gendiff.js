@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { program } = require('commander');
+import program from 'commander';
 import genDiff from '../genDiff';
 
 program
@@ -9,7 +9,8 @@ program
   .option('-f, --format <type>', 'output format')
   .arguments('<filepath1> <filepath2>')
   .action((filepath1, filepath2) => {
-    console.log(genDiff(filepath1, filepath2))})
+    console.log(genDiff(filepath1, filepath2));
+  })
   .parse(process.argv);
 
 export default genDiff;
