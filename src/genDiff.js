@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 const genDiff = (pathToFirstFile, pathToSecondFile) => {
   const firstFile = fs.readFileSync(pathToFirstFile);
@@ -9,25 +9,27 @@ const genDiff = (pathToFirstFile, pathToSecondFile) => {
   const keysOfSecondFile = Object.keys(parseSecondFile);
   const allKeys = [...keysOfFirstFile, ...keysOfSecondFile];
   const uniqueKeys = allKeys.filter((item, index) => allKeys.indexOf(item) === index);
-  let result = '{\n';
-  for(let key of uniqueKeys) {
+  const difference = uniqueKeys.reduce((acc, key) => {
     const valueBefore = parseFirstFile[key];
     const valueAfter = parseSecondFile[key];
     if (keysOfFirstFile.includes(key) && keysOfSecondFile.includes(key)) {
-        if (valueBefore === valueAfter) {
-          result += `    ${key}: ${valueBefore}\n`;
-        } else {
-            result += `  - ${key}: ${valueBefore}\n`
-            result += `  + ${key}: ${valueAfter}\n`
-        }
+      if (valueBefore === valueAfter) {
+        acc.push(`    ${key}: ${valueBefore}\n`);
+      } else {
+        acc.push(`  - ${key}: ${valueBefore}\n`);
+        acc.push(`  + ${key}: ${valueAfter}\n`);
+      }
     }
     if (keysOfFirstFile.includes(key) && !keysOfSecondFile.includes(key)) {
-      result += `  - ${key}: ${valueBefore}\n`
+      acc.push(`  - ${key}: ${valueBefore}\n`);
     }
     if (!keysOfFirstFile.includes(key) && keysOfSecondFile.includes(key)) {
-      result += `  + ${key}: ${valueAfter}\n`;
+      acc.push(`  + ${key}: ${valueAfter}\n`);
     }
-  }
-  return result += '}';
+    return acc;
+  }, []);
+  const differenceToString = difference.join('');
+  const result = (`{\n${differenceToString}}`);
+  return result;
 };
 export default genDiff;
