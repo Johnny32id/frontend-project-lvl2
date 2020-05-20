@@ -1,10 +1,8 @@
-import fs from 'fs';
+import parser from './parsers';
 
 const genDiff = (pathToFirstFile, pathToSecondFile) => {
-  const firstFile = fs.readFileSync(pathToFirstFile);
-  const secondFile = fs.readFileSync(pathToSecondFile);
-  const parseFirstFile = JSON.parse(firstFile);
-  const parseSecondFile = JSON.parse(secondFile);
+  const parseFirstFile = parser(pathToFirstFile);
+  const parseSecondFile = parser(pathToSecondFile);
   const keysOfFirstFile = Object.keys(parseFirstFile);
   const keysOfSecondFile = Object.keys(parseSecondFile);
   const allKeys = [...keysOfFirstFile, ...keysOfSecondFile];
