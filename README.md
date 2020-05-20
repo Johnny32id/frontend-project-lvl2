@@ -5,3 +5,4 @@
 **Asciinema**
 * gendiffJSON (https://asciinema.org/a/ZyoFZsYmaLvTSQBSrWTF8CVQD)
 * gendiffYML (https://asciinema.org/a/W1raCGZsa8v7zZfLbmFYn9Ow2)
+* gendiffINI (https://asciinema.org/a/5AYChvBAtinIf789mUwgrI6XC)
