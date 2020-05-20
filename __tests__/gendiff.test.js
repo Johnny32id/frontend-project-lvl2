@@ -13,3 +13,8 @@ test('gendiffYML', () => {
   const secondFileYml = getFixturePath('after.yml');
   expect(gendiff(firstFileYml, secondFileYml)).toEqual(result);
 });
+test('gendiffINI', () => {
+  const firstFileINI = getFixturePath('before.ini');
+  const secondFileINI = getFixturePath('after.ini');
+  expect(gendiff(firstFileINI, secondFileINI)).toEqual(result);
+});
