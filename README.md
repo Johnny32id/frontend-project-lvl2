@@ -3,4 +3,5 @@
 ![Node.js CI](https://github.com/Johnny32id/frontend-project-lvl2/workflows/Node.js%20CI/badge.svg)
 
 **Asciinema**
-* genDiff (https://asciinema.org/a/ZyoFZsYmaLvTSQBSrWTF8CVQD)
+* gendiffJSON (https://asciinema.org/a/ZyoFZsYmaLvTSQBSrWTF8CVQD)
+* gendiffYML (https://asciinema.org/a/W1raCGZsa8v7zZfLbmFYn9Ow2)
