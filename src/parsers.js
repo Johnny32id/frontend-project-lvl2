@@ -4,12 +4,14 @@ import yaml from 'js-yaml';
 import ini from 'ini';
 
 const parser = (pathToFile) => {
-  if (path.extname(pathToFile) === '.json') {
-    return JSON.parse(fs.readFileSync(pathToFile));
+  const format = path.extname(pathToFile);
+  const data = fs.readFileSync(pathToFile, 'utf-8');
+  if (format === '.json') {
+    return JSON.parse(data);
   }
-  if (path.extname(pathToFile) === '.yml') {
-    return yaml.safeLoad(fs.readFileSync(pathToFile));
+  if (format === '.yml') {
+    return yaml.safeLoad(data);
   }
-  return ini.parse(fs.readFileSync(pathToFile, 'utf-8'));
+  return ini.parse(data);
 };
 export default parser;

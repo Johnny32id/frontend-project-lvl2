@@ -1,20 +1,27 @@
 import path from 'path';
+import fs from 'fs';
 import genDiff from '../src/genDiff';
 
-const result = '{\n    host: hexlet.io\n  - timeout: 50\n  + timeout: 20\n  - proxy: 123.234.53.22\n  - follow: false\n  + verbose: true\n}';
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-test('gendiffJSON', () => {
-  const firstFileJson = getFixturePath('before.json');
-  const secondFileJson = getFixturePath('after.json');
-  expect(genDiff(firstFileJson, secondFileJson)).toEqual(result);
+const resultFlat = fs.readFileSync(getFixturePath('flatResult.txt'), 'utf-8');
+const resultNested = fs.readFileSync(getFixturePath('nestedResult.txt'), 'utf-8');
+test('flatJSON', () => {
+  const firstFlatFileJson = getFixturePath('flatBefore.json');
+  const secondFlatFileJson = getFixturePath('flatAfter.json');
+  expect(genDiff(firstFlatFileJson, secondFlatFileJson)).toEqual(resultFlat);
 });
-test('gendiffYML', () => {
-  const firstFileYml = getFixturePath('before.yml');
-  const secondFileYml = getFixturePath('after.yml');
-  expect(genDiff(firstFileYml, secondFileYml)).toEqual(result);
+test('flatYML', () => {
+  const firstFileYml = getFixturePath('flatBefore.yml');
+  const secondFileYml = getFixturePath('flatAfter.yml');
+  expect(genDiff(firstFileYml, secondFileYml)).toEqual(resultFlat);
 });
-test('gendiffINI', () => {
-  const firstFileINI = getFixturePath('before.ini');
-  const secondFileINI = getFixturePath('after.ini');
-  expect(genDiff(firstFileINI, secondFileINI)).toEqual(result);
+test('flatINI', () => {
+  const firstFileINI = getFixturePath('flatBefore.ini');
+  const secondFileINI = getFixturePath('flatAfter.ini');
+  expect(genDiff(firstFileINI, secondFileINI)).toEqual(resultFlat);
+});
+test('nestedJSON', () => {
+  const firstNestedFileJson = getFixturePath('nestedBefore.json');
+  const secondNestedFileJson = getFixturePath('nestedAfter.json');
+  expect(genDiff(firstNestedFileJson, secondNestedFileJson)).toEqual(resultNested);
 });
