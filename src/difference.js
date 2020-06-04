@@ -4,22 +4,23 @@ const difference = (firstFile, secondFile) => {
   const result = uniqueKeys.reduce((acc, key) => {
     const valueBefore = firstFile[key];
     const valueAfter = secondFile[key];
-    if (valueBefore instanceof Object && valueAfter instanceof Object) {
-      acc.push(`  ${key}:`, difference(valueBefore, valueAfter));
+    if (typeof valueBefore === 'object' && valueAfter === 'object') {
+      acc.push({ name: key, type: 'scope', children: difference(valueBefore, valueAfter) });
     }
     if (valueBefore !== undefined && valueAfter !== undefined) {
       if (valueBefore === valueAfter) {
-        acc.push(`    ${key}: ${valueBefore}\n`);
+        acc.push({ name: key, type: 'scope', value: valueBefore });
       } else {
-        acc.push(`  - ${key}: ${valueBefore}\n`);
-        acc.push(`  + ${key}: ${valueAfter}\n`);
+        acc.push({
+          name: key, type: 'changed', from: valueBefore, to: valueAfter,
+        });
       }
     }
     if (valueBefore !== undefined && valueAfter === undefined) {
-      acc.push(`  - ${key}: ${valueBefore}\n`);
+      acc.push({ name: key, type: 'deleted', value: valueBefore });
     }
     if (valueBefore === undefined && valueAfter !== undefined) {
-      acc.push(`  + ${key}: ${valueAfter}\n`);
+      acc.push({ name: key, type: 'added', value: valueAfter });
     }
     return acc;
   }, []);

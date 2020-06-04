@@ -6,7 +6,7 @@ const genDiff = (pathToFirstFile, pathToSecondFile) => {
   const firstFile = parser(pathToFirstFile);
   const secondFile = parser(pathToSecondFile);
   const difference = diff(firstFile, secondFile);
-  const diffToString = stylish(difference);
-  return diffToString;
+  const toString = stylish(difference);
+  return difference;
 };
 export default genDiff;
