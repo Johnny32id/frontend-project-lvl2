@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import genDiff from '../src/genDiff';
 
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', filename);
 const resultFlat = fs.readFileSync(getFixturePath('flatResult.txt'), 'utf-8');
 const resultNested = fs.readFileSync(getFixturePath('nestedResult.txt'), 'utf-8');
 test('flatJSON', () => {
