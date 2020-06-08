@@ -1,27 +1,32 @@
 const formater = (arrayOfDifference) => {
   const lineBuilding = (changes) => {
-    let line = '';
-    const { type } = changes;
-    const { value } = changes;
-    const { key } = changes;
-    const { from } = changes;
-    const { to } = changes;
-    switch (type) {
-      case 'scope':
-        line += `    ${key}: ${value}\n`;
-        break;
-      case 'deleted':
-        line += `  - ${key}: ${value}\n`;
-        break;
-      case 'added':
-        line += `  + ${key}: ${value}\n`;
-        break;
-      default:
-        line += `  - ${key}: ${from}\n  + ${key}: ${to}\n`;
-    }
-    return line;
+    const arrayToString = changes.reduce((acc, change) => {
+      const {
+        type, value, key, from, to, children,
+      } = change;
+      if (Array.isArray(children)) {
+        acc.push((`    ${key}: ${lineBuilding(children)}`));
+      } else {
+        switch (type) {
+          case 'scope':
+            acc.push(`    ${key}: ${value}\n`);
+            break;
+          case 'deleted':
+            acc.push(`  - ${key}: ${value}\n`);
+            break;
+          case 'added':
+            acc.push(`  + ${key}: ${value}\n`);
+            break;
+          default:
+            acc.push(`  - ${key}: ${from}\n`);
+            acc.push(`  + ${key}: ${to}\n`);
+        }
+      }
+      return acc;
+    }, []);
+    return ['{\n', arrayToString, '}'];
   };
-  const result = arrayOfDifference.map(lineBuilding);
+  const result = lineBuilding(arrayOfDifference).flat(Infinity).join('');
   return result;
 };
 export default formater;
