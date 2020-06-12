@@ -3,6 +3,7 @@
 ![Node.js CI](https://github.com/Johnny32id/frontend-project-lvl2/workflows/Node.js%20CI/badge.svg)
 
 **Asciinema**
-* gendiffJSON (https://asciinema.org/a/ZyoFZsYmaLvTSQBSrWTF8CVQD)
-* gendiffYML (https://asciinema.org/a/W1raCGZsa8v7zZfLbmFYn9Ow2)
-* gendiffINI (https://asciinema.org/a/5AYChvBAtinIf789mUwgrI6XC)
+* gendiffFlatJSON (https://asciinema.org/a/ZyoFZsYmaLvTSQBSrWTF8CVQD)
+* gendiffFlatYML (https://asciinema.org/a/W1raCGZsa8v7zZfLbmFYn9Ow2)
+* gendiffFlatINI (https://asciinema.org/a/5AYChvBAtinIf789mUwgrI6XC)
+* gendiffNestedJSON (https://asciinema.org/a/jwTPaTG24QQGXunQWUE5hgSmy)
