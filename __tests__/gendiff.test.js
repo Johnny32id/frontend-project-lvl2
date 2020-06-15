@@ -3,25 +3,27 @@ import fs from 'fs';
 import genDiff from '../src/genDiff';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', filename);
-const resultFlat = fs.readFileSync(getFixturePath('flatResult.txt'), 'utf-8');
-const resultNested = fs.readFileSync(getFixturePath('nestedResult.txt'), 'utf-8');
-test('flatJSON', () => {
-  const firstFlatFileJson = getFixturePath('flatBefore.json');
-  const secondFlatFileJson = getFixturePath('flatAfter.json');
-  expect(genDiff(firstFlatFileJson, secondFlatFileJson)).toEqual(resultFlat);
+const flatResult = fs.readFileSync(getFixturePath('flatResult.txt'), 'utf-8');
+const stylishResult = fs.readFileSync(getFixturePath('stylishResult.txt'), 'utf-8');
+const plainResult = fs.readFileSync(getFixturePath('plainResult.txt'), 'utf-8');
+test('stylishJSON', () => {
+  expect(genDiff(getFixturePath('flatBefore.json'), getFixturePath('flatAfter.json'))).toEqual(flatResult);
+  expect(genDiff(getFixturePath('nestedBefore.json'), getFixturePath('nestedAfter.json'))).toEqual(stylishResult);
 });
-test('flatYML', () => {
-  const firstFileYml = getFixturePath('flatBefore.yml');
-  const secondFileYml = getFixturePath('flatAfter.yml');
-  expect(genDiff(firstFileYml, secondFileYml)).toEqual(resultFlat);
+test('stylishYML', () => {
+  expect(genDiff(getFixturePath('flatBefore.yml'), getFixturePath('flatAfter.yml'))).toEqual(flatResult);
+  expect(genDiff(getFixturePath('nestedBefore.yml'), getFixturePath('nestedAfter.yml'))).toEqual(stylishResult);
 });
-test('flatINI', () => {
-  const firstFileINI = getFixturePath('flatBefore.ini');
-  const secondFileINI = getFixturePath('flatAfter.ini');
-  expect(genDiff(firstFileINI, secondFileINI)).toEqual(resultFlat);
+test('stylishINI', () => {
+  expect(genDiff(getFixturePath('flatBefore.ini'), getFixturePath('flatAfter.ini'))).toEqual(flatResult);
+  expect(genDiff(getFixturePath('nestedBefore.ini'), getFixturePath('nestedAfter.ini'))).toEqual(stylishResult);
 });
-test('nestedJSON', () => {
-  const firstNestedFileJson = getFixturePath('nestedBefore.json');
-  const secondNestedFileJson = getFixturePath('nestedAfter.json');
-  expect(genDiff(firstNestedFileJson, secondNestedFileJson)).toEqual(resultNested);
+test('plainJSON', () => {
+  expect(genDiff(getFixturePath('nestedBefore.json'), getFixturePath('nestedAfter.json'), 'plain')).toEqual(plainResult);
+});
+test('plainYML', () => {
+  expect(genDiff(getFixturePath('nestedBefore.yml'), getFixturePath('nestedAfter.yml'), 'plain')).toEqual(plainResult);
+});
+test('plainINI', () => {
+  expect(genDiff(getFixturePath('nestedBefore.ini'), getFixturePath('nestedAfter.ini'), 'plain')).toEqual(plainResult);
 });
