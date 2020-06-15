@@ -5,11 +5,11 @@ const difference = (firstFile, secondFile) => {
     const valueBefore = firstFile[name];
     const valueAfter = secondFile[name];
     if (typeof valueBefore === 'object' && typeof valueAfter === 'object') {
-      acc.push({ key: name, type: 'scope', children: difference(valueBefore, valueAfter) });
+      acc.push({ key: name, type: 'not changed', children: difference(valueBefore, valueAfter) });
     } else {
       if (valueBefore !== undefined && valueAfter !== undefined) {
         if (valueBefore === valueAfter) {
-          acc.push({ key: name, type: 'scope', value: valueBefore });
+          acc.push({ key: name, type: 'not changed', value: valueBefore });
         } else {
           acc.push({
             key: name, type: 'changed', from: valueBefore, to: valueAfter,

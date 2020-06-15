@@ -24,7 +24,7 @@ const formater = (arrayOfDifference) => {
         acc.push([`\n${indentation(indent + 4)}${key}: `, lineBuilding(children, indent + 4)]);
       } else {
         switch (type) {
-          case 'scope':
+          case 'not changed':
             acc.push(`\n${indentation(indent + 4)}${key}: ${valueToString(value, indent + 4)}`);
             break;
           case 'deleted':
