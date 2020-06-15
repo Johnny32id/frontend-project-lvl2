@@ -1,6 +1,6 @@
 import parser from './parsers';
 import diff from './difference';
-import lineBuildingFormat from './formater';
+import lineBuildingFormat from './formatters/index';
 
 const genDiff = (pathToFirstFile, pathToSecondFile, format) => {
   const firstFile = parser(pathToFirstFile);
