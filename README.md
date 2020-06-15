@@ -6,4 +6,5 @@
 * gendiffFlatJSON (https://asciinema.org/a/ZyoFZsYmaLvTSQBSrWTF8CVQD)
 * gendiffFlatYML (https://asciinema.org/a/W1raCGZsa8v7zZfLbmFYn9Ow2)
 * gendiffFlatINI (https://asciinema.org/a/5AYChvBAtinIf789mUwgrI6XC)
-* gendiffNestedJSON (https://asciinema.org/a/jwTPaTG24QQGXunQWUE5hgSmy)
+* gendiffStylish (https://asciinema.org/a/jwTPaTG24QQGXunQWUE5hgSmy)
+* gendiffPlain (https://asciinema.org/a/nyPjcqJsd8kPjkVyAvySjYeyv)
