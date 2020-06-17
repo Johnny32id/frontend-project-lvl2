@@ -1,6 +1,5 @@
 import stylish from './stylish';
 import plain from './plain';
-import json from './json';
 
 const lineBuildingFormat = (format, differrence) => {
   let formater;
@@ -9,7 +8,7 @@ const lineBuildingFormat = (format, differrence) => {
       formater = plain;
       break;
     case ('json'):
-      formater = json;
+      formater = JSON.stringify;
       break;
     default:
       formater = stylish;
