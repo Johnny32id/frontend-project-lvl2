@@ -8,3 +8,4 @@
 * gendiffFlatINI (https://asciinema.org/a/5AYChvBAtinIf789mUwgrI6XC)
 * gendiffStylish (https://asciinema.org/a/jwTPaTG24QQGXunQWUE5hgSmy)
 * gendiffPlain (https://asciinema.org/a/nyPjcqJsd8kPjkVyAvySjYeyv)
+* gendiffJSON (https://asciinema.org/a/zC1DQdug2D8AFaPp0CvDk99PD)
