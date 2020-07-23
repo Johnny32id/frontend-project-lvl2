@@ -1,22 +1,18 @@
-import fs from 'fs';
-import path from 'path';
 import yaml from 'js-yaml';
-import ini from 'ini';
+import iniParser from './iniParser';
 
-const parser = (pathToFile) => {
-  const format = path.extname(pathToFile);
-  const data = fs.readFileSync(pathToFile, 'utf-8');
-  let parse;
-  switch (format) {
+const parse = (data, extension) => {
+  let parser;
+  switch (extension) {
     case '.json':
-      parse = JSON.parse;
+      parser = JSON.parse;
       break;
     case '.yml':
-      parse = yaml.safeLoad;
+      parser = yaml.safeLoad;
       break;
     default:
-      parse = ini.parse;
+      parser = iniParser;
   }
-  return parse(data);
+  return parser(data);
 };
-export default parser;
+export default parse;
