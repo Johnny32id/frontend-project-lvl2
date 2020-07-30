@@ -1,26 +1,31 @@
+import _ from 'lodash';
+
 const difference = (firstFile, secondFile) => {
-  const allKeys = [...Object.keys(firstFile), ...Object.keys(secondFile)];
+  const keysFromFirstFile = Object.keys(firstFile);
+  const keysFromSecondFile = Object.keys(secondFile);
+  const allKeys = keysFromFirstFile.concat(keysFromSecondFile);
   const uniqueKeys = allKeys.filter((item, index) => allKeys.indexOf(item) === index);
   const result = uniqueKeys.reduce((acc, name) => {
+    const keyName = name;
     const valueBefore = firstFile[name];
     const valueAfter = secondFile[name];
-    if (typeof valueBefore === 'object' && typeof valueAfter === 'object') {
-      acc.push({ key: name, type: 'not changed', children: difference(valueBefore, valueAfter) });
+    if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
+      acc.push({ key: keyName, type: 'not changed', children: difference(valueBefore, valueAfter) });
     } else {
-      if (valueBefore !== undefined && valueAfter !== undefined) {
+      if (keysFromFirstFile.includes(keyName) && keysFromSecondFile.includes(keyName)) {
         if (valueBefore === valueAfter) {
-          acc.push({ key: name, type: 'not changed', value: valueBefore });
+          acc.push({ key: keyName, type: 'not changed', value: valueBefore });
         } else {
           acc.push({
-            key: name, type: 'changed', from: valueBefore, to: valueAfter,
+            key: keyName, type: 'changed', from: valueBefore, to: valueAfter,
           });
         }
       }
-      if (valueBefore !== undefined && valueAfter === undefined) {
-        acc.push({ key: name, type: 'deleted', value: valueBefore });
+      if (!keysFromSecondFile.includes(keyName)) {
+        acc.push({ key: keyName, type: 'deleted', value: valueBefore });
       }
-      if (valueBefore === undefined && valueAfter !== undefined) {
-        acc.push({ key: name, type: 'added', value: valueAfter });
+      if (!keysFromFirstFile.includes(keyName)) {
+        acc.push({ key: keyName, type: 'added', value: valueAfter });
       }
     }
     return acc;
