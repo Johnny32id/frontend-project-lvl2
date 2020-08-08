@@ -1,18 +1,14 @@
 import stylish from './stylish';
 import plain from './plain';
 
-const lineBuildingFormat = (format, differrence) => {
-  let formater;
+const lineBuildingFormat = (format, difference) => {
   switch (format) {
     case ('plain'):
-      formater = plain;
-      break;
+      return plain(difference);
     case ('json'):
-      formater = JSON.stringify;
-      break;
+      return JSON.stringify(difference);
     default:
-      formater = stylish;
+      return stylish(difference);
   }
-  return formater(differrence);
 };
 export default lineBuildingFormat;
