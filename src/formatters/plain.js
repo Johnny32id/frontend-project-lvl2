@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const currectedValue = (value) => {
   if (typeof value === 'object') {
     return '[complex value]';
@@ -5,29 +7,28 @@ const currectedValue = (value) => {
   return `'${value}'`;
 };
 const plain = (difference) => {
-  const lineBuilding = (change, name = '') => {
-    const build = change.reduce((acc, item) => {
+  const lineBuilding = (change, node = '') => {
+    const build = change.map((item) => {
       const {
         type, key, value, from, to, children,
       } = item;
-      if (Array.isArray(children)) {
-        acc.push([lineBuilding(children, `${name}${key}.`)]);
-      } else {
-        if (type === 'deleted') {
-          acc.push(`Property '${name}${key}' was deleted`);
-        }
-        if (type === 'added') {
-          acc.push(`Property '${name}${key}' was added with value: ${currectedValue(value)}`);
-        }
-        if (type === 'changed') {
-          acc.push(`Property '${name}${key}' was changed from ${currectedValue(from)} to ${currectedValue(to)}`);
-        }
+      if (_.has(item, 'children')) {
+        return lineBuilding(children, `${node}${key}.`);
       }
-      return acc;
-    }, []);
+      switch (type) {
+        case 'deleted':
+          return `Property '${node}${key}' was deleted`;
+        case 'added':
+          return `Property '${node}${key}' was added with value: ${currectedValue(value)}`;
+        case 'changed':
+          return `Property '${node}${key}' was changed from ${currectedValue(from)} to ${currectedValue(to)}`;
+        default:
+          return '';
+      }
+    });
     return build;
   };
-  const result = lineBuilding(difference).flat(Infinity).join('\n');
+  const result = lineBuilding(difference).flat(Infinity).filter((el) => el).join('\n');
   return result;
 };
 export default plain;
