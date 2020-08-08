@@ -16,30 +16,24 @@ const valueToString = (value, indent) => {
 };
 const formater = (arrayOfDifference) => {
   const lineBuilding = (changes, indent = 0) => {
-    const arrayToString = changes.reduce((acc, change) => {
+    const arrayToString = changes.map((change) => {
       const {
         type, value, key, from, to, children,
       } = change;
       if (Array.isArray(children)) {
-        acc.push([`\n${indentation(indent + 4)}${key}: `, lineBuilding(children, indent + 4)]);
-      } else {
-        switch (type) {
-          case 'not changed':
-            acc.push(`\n${indentation(indent + 4)}${key}: ${valueToString(value, indent + 4)}`);
-            break;
-          case 'deleted':
-            acc.push(`\n${indentation(indent + 4, '- ')}${key}: ${valueToString(value, indent + 4)}`);
-            break;
-          case 'added':
-            acc.push(`\n${indentation(indent + 4, '+ ')}${key}: ${valueToString(value, indent + 4)}`);
-            break;
-          default:
-            acc.push(`\n${indentation(indent + 4, '- ')}${key}: ${valueToString(from, indent + 4)}`);
-            acc.push(`\n${indentation(indent + 4, '+ ')}${key}: ${valueToString(to, indent + 4)}`);
-        }
+        return [`\n${indentation(indent + 4)}${key}: `, lineBuilding(children, indent + 4)];
       }
-      return acc;
-    }, []);
+      switch (type) {
+        case 'unchanged':
+          return `\n${indentation(indent + 4)}${key}: ${valueToString(value, indent + 4)}`;
+        case 'deleted':
+          return `\n${indentation(indent + 4, '- ')}${key}: ${valueToString(value, indent + 4)}`;
+        case 'added':
+          return `\n${indentation(indent + 4, '+ ')}${key}: ${valueToString(value, indent + 4)}`;
+        default:
+          return `\n${indentation(indent + 4, '- ')}${key}: ${valueToString(from, indent + 4)}\n${indentation(indent + 4, '+ ')}${key}: ${valueToString(to, indent + 4)}`;
+      }
+    });
     return ['{', arrayToString, `\n${indentation(indent)}}`];
   };
   const result = lineBuilding(arrayOfDifference).flat(Infinity).join('');

@@ -2,17 +2,15 @@ import yaml from 'js-yaml';
 import iniParser from './iniParser';
 
 const parse = (data, extension) => {
-  let parser;
   switch (extension) {
     case '.json':
-      parser = JSON.parse;
-      break;
+      return JSON.parse(data);
     case '.yml':
-      parser = yaml.safeLoad;
-      break;
+      return yaml.safeLoad(data);
+    case '.ini':
+      return iniParser(data);
     default:
-      parser = iniParser;
+      throw new Error(`Wrong file extension ${extension}`);
   }
-  return parser(data);
 };
 export default parse;
