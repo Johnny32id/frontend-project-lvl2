@@ -1,42 +1,46 @@
+import _ from 'lodash';
+
 const indentation = (indent, sign = '') => {
   if (indent === 0) {
     return '';
   }
-  const currectIndent = indent - sign.length;
-  const result = `${' '.repeat(currectIndent)}${sign}`;
+  const desiredIndent = indent - sign.length;
+  const result = `${' '.repeat(desiredIndent)}${sign}`;
   return result;
 };
 const valueToString = (value, indent) => {
-  if (typeof value === 'object') {
-    const key = Object.keys(value);
-    const result = `{\n${indentation(indent + 4)}${key}: ${value[key]}\n${indentation(indent)}}`;
-    return result;
+  if (!_.isObject(value)) {
+    return value;
   }
-  return value;
+  const key = Object.keys(value);
+  const result = `{\n${indentation(indent + 4)}${key}: ${value[key]}\n${indentation(indent)}}`;
+  return result;
 };
 const formater = (arrayOfDifference) => {
-  const lineBuilding = (changes, indent = 0) => {
+  const stringConstruction = (changes, indent = 0) => {
     const arrayToString = changes.map((change) => {
       const {
         type, value, key, from, to, children,
       } = change;
-      if (Array.isArray(children)) {
-        return [`\n${indentation(indent + 4)}${key}: `, lineBuilding(children, indent + 4)];
+      if (_.isArray(children)) {
+        return [`${indentation(indent + 4)}${key}: {`, stringConstruction(children, indent + 4), `${indentation(indent + 4)}}`];
       }
       switch (type) {
         case 'unchanged':
-          return `\n${indentation(indent + 4)}${key}: ${valueToString(value, indent + 4)}`;
+          return `${indentation(indent + 4)}${key}: ${valueToString(value, indent + 4)}`;
         case 'deleted':
-          return `\n${indentation(indent + 4, '- ')}${key}: ${valueToString(value, indent + 4)}`;
+          return `${indentation(indent + 4, '- ')}${key}: ${valueToString(value, indent + 4)}`;
         case 'added':
-          return `\n${indentation(indent + 4, '+ ')}${key}: ${valueToString(value, indent + 4)}`;
+          return `${indentation(indent + 4, '+ ')}${key}: ${valueToString(value, indent + 4)}`;
+        case 'changed':
+          return [`${indentation(indent + 4, '- ')}${key}: ${valueToString(from, indent + 4)}`, `${indentation(indent + 4, '+ ')}${key}: ${valueToString(to, indent + 4)}`];
         default:
-          return `\n${indentation(indent + 4, '- ')}${key}: ${valueToString(from, indent + 4)}\n${indentation(indent + 4, '+ ')}${key}: ${valueToString(to, indent + 4)}`;
+          throw new Error(`Unsuitable type ${type}`);
       }
     });
-    return ['{', arrayToString, `\n${indentation(indent)}}`];
+    return arrayToString;
   };
-  const result = lineBuilding(arrayOfDifference).flat(Infinity).join('');
+  const result = ['{', stringConstruction(arrayOfDifference), '}'].flat(Infinity).join('\n');
   return result;
 };
 export default formater;
