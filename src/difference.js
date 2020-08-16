@@ -12,7 +12,7 @@ const difference = (firstData, secondData) => {
       return { key, type: 'deleted', value: valueBefore };
     }
     if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
-      return { key, type: 'unchanged', children: difference(valueBefore, valueAfter) };
+      return { key, type: 'tree', children: difference(valueBefore, valueAfter) };
     }
     if (valueBefore === valueAfter) {
       return { key, type: 'unchanged', value: valueBefore };
