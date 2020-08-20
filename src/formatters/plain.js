@@ -1,24 +1,24 @@
-const convertingValue = (value) => {
+const stringify = (value) => {
   if (typeof value === 'object') {
     return '[complex value]';
   }
   return `'${value}'`;
 };
 const buildPlainFormat = (difference) => {
-  const buildLine = (change, node = '') => {
-    const build = change.map((item) => {
+  const buildLine = (changes, ancestry = '') => {
+    const build = changes.map((item) => {
       const {
         type, key, value, from, to, children,
       } = item;
       switch (type) {
         case 'tree':
-          return buildLine(children, `${node}${key}.`);
+          return buildLine(children, `${ancestry}${key}.`);
         case 'deleted':
-          return `Property '${node}${key}' was deleted`;
+          return `Property '${ancestry}${key}' was deleted`;
         case 'added':
-          return `Property '${node}${key}' was added with value: ${convertingValue(value)}`;
+          return `Property '${ancestry}${key}' was added with value: ${stringify(value)}`;
         case 'changed':
-          return `Property '${node}${key}' was changed from ${convertingValue(from)} to ${convertingValue(to)}`;
+          return `Property '${ancestry}${key}' was changed from ${stringify(from)} to ${stringify(to)}`;
         case 'unchanged':
           return null;
         default:
